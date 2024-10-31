@@ -1,5 +1,4 @@
 /*
-
 FUNCTION getComputerChoice() returns string
   INIT Number variable 'choice' to random number [0, 1) multiplied by 3
   IF choice is greater than or equal to 0 THEN
@@ -11,7 +10,7 @@ FUNCTION getComputerChoice() returns string
   IF choice is greater than or equal to 2 THEN
     RETURN string "scissors"
   ENDIF
-
+ENDFUNCTION
 */
 
 
@@ -58,4 +57,24 @@ FUNCTION playRound(humanChoice, computerChoice) no return
   ENDIF
   display "You lose! (computerChoice) beats (humanChoice)"
   increment 'computerScore'
+ENDFUNCTION
+*/
+
+/*
+FUNCTION playGame() no return
+  FOR SET 'rounds' to 0, 'rounds' is less than 5, increment 'rounds'
+    CALL playRound(CALL getHumanChoice, CALL getComputerChoice);
+  ENDFOR
+
+  IF humanScore is greater than computerScore THEN
+    display "You win the game!"
+    return
+  ENDIF
+
+  IF humanScore is less than computerScore THEN
+    display "You lose the game!"
+  ENDIF
+
+  display "It's a tie!"
+ENDFUNCTION
 */
