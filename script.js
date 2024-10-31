@@ -121,10 +121,10 @@ function playRound(humanChoice, computerChoice) {
   computerChoiceFormat = computerChoice.at(0).toUpperCase() + computerChoice.substring(1);
 
   if (win) {
-    console.log(`You win! ${humanChoice} beats ${computerChoice}!`);
+    console.log(`You win! ${humanChoiceFormat} beats ${computerChoiceFormat}!`);
     humanScore++;
   } else {
-    console.log(`You lose! ${computerChoice} beats ${humanChoice}!`);
+    console.log(`You lose! ${computerChoiceFormat} beats ${humanChoiceFormat}!`);
     computerScore++;
   }
 }
