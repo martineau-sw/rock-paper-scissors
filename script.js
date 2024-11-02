@@ -43,7 +43,6 @@ function playRound(humanChoice, computerChoice) {
   }
 
   // check for win, otherwise loss
-  // simplified this block to a boolean expression for clarity
   switch (humanChoice) {
     case "rock":
       win = computerChoice === "scissors";
