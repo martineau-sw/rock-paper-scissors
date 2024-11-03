@@ -19,11 +19,29 @@ let humanScore = 0;
 let computerScore = 0;
 
 function playRound(humanChoice, computerChoice) {
-  const outcome = getOutcomeFromChoices(humanChoice, computerChoice);
-  updateScoreFromOutcome(outcome);
-  updateScoreElements(humanScore, computerScore)
-  updateAnnouncementElement(formatRoundAnnouncement(humanChoice, computerChoice, outcome));
-  updateBackgroundColorFromOutcome(outcome)
+  const roundOutcome = getOutcomeFromChoices(humanChoice, computerChoice);
+  updateScoreFromOutcome(roundOutcome);
+  updateScoreElements(humanScore, computerScore);
+
+  const gameOutcome = checkGameOutcome(humanScore, computerScore);
+
+  if (gameOutcome) {
+    updateAnnouncementElement(formatGameAnnouncement(gameOutcome));
+    updateBackgroundColorFromOutcome(gameOutcome);
+    endGame(gameOutcome);
+  } else {
+    updateAnnouncementElement(formatRoundAnnouncement(humanChoice, computerChoice, roundOutcome));
+    updateBackgroundColorFromOutcome(roundOutcome);
+  }
+}
+
+function endGame(gameOutcome) {
+  const humanElement = document.querySelector('.human');
+  const outputElement = document.querySelector('.output');
+
+  outputElement.removeChild(gameOutcome > 0 ? outputElement.firstElementChild : outputElement.lastElementChild);
+  humanElement.classList.add('disable');
+  outputElement.classList.add('output');
 }
 
 function getOutcomeFromChoices(humanChoice, computerChoice) {
@@ -53,6 +71,7 @@ function applyEventDelegate() {
     const id = (event.target.id !== '') ? 
       event.target.id :
       event.target.parentElement.id;
+    
     playRound(id, getComputerChoice());
   });
 }
@@ -76,6 +95,28 @@ function formatRoundAnnouncement(humanChoice, computerChoice, outcome) {
       return 'It\'s a tie!';
     case 1:
       return `You win! ${humanChoice} beats ${computerChoice}!` 
+  }
+}
+
+function checkGameOutcome(humanScore, computerScore) {
+  if (humanScore === 5) {
+    return 1;
+  }
+
+  if (computerScore === 5) {
+    return -1;
+  }
+
+  return 0;
+}
+
+function formatGameAnnouncement() {
+  if (humanScore === 5) {
+    return 'You win the game!'
+  }
+  
+  if (computerScore === 5) {
+    return 'You lose the game!'
   }
 }
 

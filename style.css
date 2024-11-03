@@ -28,18 +28,10 @@
   inherits: false;
 }
 
-@property --gradient-percent {
-  syntax: '<percentage>';
-  initial-value: 50%;
-  inherits: false;
-}
-
 * {
   padding: 0;
   margin: 0;
 }
-
-
 
 body {
   position: relative;
@@ -145,11 +137,19 @@ body {
   mix-blend-mode: screen;
 }
 
-.human:hover .icon {
-
+.human:hover .icon,
+.disable {
   color: rgba(255, 255, 255, 0.5);
   translate: 0 25vh;
   scale: 0.5;
+}
+
+.disable {
+  pointer-events: none;
+}
+
+.disable.output {
+  flex: 1;
 }
 
 .input:hover .icon {
