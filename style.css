@@ -42,6 +42,7 @@
 
 
 body {
+  position: relative;
   transition: --outcome-color 500ms;
   height: 100vh;
   display: flex;
@@ -55,6 +56,8 @@ body {
   color: white;
   overflow:hidden;
   user-select: none;
+  mix-blend-mode: multiply;
+  background-color: gray;
 
 }
 
@@ -74,8 +77,21 @@ body {
   display: flex;
 }
 
+.output {
+  position: relative;
+  background-image: linear-gradient(rgb(255, 0, 0) 0%, rgb(255, 255, 255) 20%, rgb(0, 0, 255) 60%);
+  background-attachment: fixed;
+  color: transparent;
+  mix-blend-mode: screen;
+  background-clip: text;
+  font-weight: 900;
+  background-color: gray;
+  text-transform: uppercase;
+  filter: drop-shadow(0 -5px 5px rgba(0, 0, 0, 0.485));
+}
+
 .score {
-  background-clip:border-box;
+  font-size: 8vh;
 }
 
 .output {
@@ -122,7 +138,7 @@ body {
 }
 
 .icon {
-  transition: translate 200ms scale 200ms filter 1s;
+  transition: translate 200ms, scale 200ms, filter 500ms;
 
   font-size: 15vh;
   user-select: none;
