@@ -148,7 +148,7 @@ body {
   pointer-events: none;
 }
 
-.disable.output {
+.disable.human {
   flex: 1;
 }
 
