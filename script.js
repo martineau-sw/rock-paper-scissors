@@ -15,21 +15,6 @@ function getComputerChoice() {
   return "unexpected";
 }
 
-function getHumanChoice() {                                       
-  let choice = prompt("Rock, paper, or scissors?");               
-  choice = choice.toLowerCase();                                  
-  choice = choice.trim();                                         
-  switch (choice) {                                               
-    case "rock":                                                  
-    case "paper":                                                 
-    case "scissors":                                              
-      return choice;                                           
-    default:                                                      
-      console.log("that's not how we play rock-paper-scissors");  
-      return getHumanChoice();                                    
-  }                                                               
-}
-
 let humanScore = 0;
 let computerScore = 0;
 
@@ -55,21 +40,22 @@ function playRound(humanChoice, computerChoice) {
 
   humanWins ? humanScore++ : computerScore++;
   
-  updateScores(humanScore, computerScore)
-  updateAnnouncement(formatRoundAnnouncement(humanChoice, computerChoice, humanWins));
+  updateComputerChoiceElement(computerChoice);
+  updateScoreElements(humanScore, computerScore)
+  updateAnnouncementElement(formatRoundAnnouncement(humanChoice, computerChoice, humanWins));
 }
 
 function applyEventDelegate() {
-  buttonsElement = document.querySelector('.human');
+  const buttonsElement = document.querySelector('.human');
   buttonsElement.addEventListener('click', event => {
     playRound(event.target.id, getComputerChoice());
     event.stopPropagation();
   });
 }
 
-function updateScores(humanScore, computerScore) {
-  humanScoreElement = document.querySelector('#human-score');
-  computerScoreElement = document.querySelector('#computer-score');
+function updateScoreElements(humanScore, computerScore) {
+  const humanScoreElement = document.querySelector('#human-score');
+  const computerScoreElement = document.querySelector('#computer-score');
 
   humanScoreElement.textContent = humanScore;
   computerScoreElement.textContent = computerScore;
@@ -84,9 +70,27 @@ function formatRoundAnnouncement(humanChoice, computerChoice, humanWon) {
   return roundAnnouncement;
 }
 
-function updateAnnouncement(message) {
-  announcementElement = document.querySelector('#announcement');
+function updateAnnouncementElement(message) {
+  const announcementElement = document.querySelector('#announcement');
   announcementElement.textContent = message;
+}
+
+function getIconFromChoice(choice) {
+  switch (choice) {
+    case 'rock':
+      return '🪨';
+    case 'paper':
+      return '📄';
+    case 'scissors':
+      return '✂️';
+  }
+
+  return '🚫';
+}
+
+function updateComputerChoiceElement(computerChoice) {
+  const computerChoiceElement = document.querySelector('#computer-choice');
+  computerChoiceElement.textContent = getIconFromChoice(computerChoice);
 }
 
 applyEventDelegate();

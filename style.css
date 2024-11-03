@@ -17,8 +17,6 @@ body {
 }
 
 .section {
-  flex: 1;
-
   display: flex;
 }
 
@@ -28,19 +26,19 @@ body {
   font-size: 5vh;
 }
 
-.human.input,
+.human,
 .output { 
   flex: 2;
 }
 
-.human.input {
+.human {
   display: flex;
   justify-content: center;
   align-items: flex-end;
   gap: 5vw;
 }
 
-.computer.input {
+.computer {
   display: flex;
   justify-content: center;
 }
@@ -56,4 +54,12 @@ button {
   text-shadow: 0 0 white;
   border: none;
   font-size: 15vh;
+
+  transition: all 50ms;
+}
+
+button:hover {
+  color: white;
+  text-shadow: none;
+  scale: 1.1;
 }
