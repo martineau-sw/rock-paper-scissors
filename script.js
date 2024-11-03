@@ -34,50 +34,59 @@ let humanScore = 0;
 let computerScore = 0;
 
 function playRound(humanChoice, computerChoice) {
-  let win = false;
+  let humanWins = false;
 
-  // tie condition accounted for
   if (humanChoice === computerChoice) {
-    console.log("It's a tie!");
+    updateAnnouncement('It\'s a tie!');
     return;
   }
 
-  // check for win, otherwise loss
   switch (humanChoice) {
     case "rock":
-      win = computerChoice === "scissors";
+      humanWins = computerChoice === "scissors";
+      break;
     case "paper":
-      win = computerChoice === "rock";
+      humanWins = computerChoice === "rock";
+      break;
     case "scissors":
-      win = computerChoice === "paper";
+      humanWins = computerChoice === "paper";
+      break;
   }
 
-  humanChoiceFormat = humanChoice.at(0).toUpperCase() + humanChoice.substring(1);
-  computerChoiceFormat = computerChoice.at(0).toUpperCase() + computerChoice.substring(1);
-
-  if (win) {
-    console.log(`You win! ${humanChoiceFormat} beats ${computerChoiceFormat}!`);
-    humanScore++;
-  } else {
-    console.log(`You lose! ${computerChoiceFormat} beats ${humanChoiceFormat}!`);
-    computerScore++;
-  }
+  humanWins ? humanScore++ : computerScore++;
+  
+  updateScores(humanScore, computerScore)
+  updateAnnouncement(formatRoundAnnouncement(humanChoice, computerChoice, humanWins));
 }
 
-function playGame() {
-  for (let rounds = 0; rounds < 5; rounds++) {
-    playRound(getHumanChoice(), getComputerChoice());
-  }
-
-  if (humanScore > computerScore) {
-    console.log("You win the game!");
-    return;
-  } 
-
-  if (humanScore < computerScore) {
-    console.log("You lose the game!");
-    return;
-  }
-
-  console.log("It's a tie!"); 
+function applyEventDelegate() {
+  buttonsElement = document.querySelector('.human');
+  buttonsElement.addEventListener('click', event => {
+    playRound(event.target.id, getComputerChoice());
+    event.stopPropagation();
+  });
 }
+
+function updateScores(humanScore, computerScore) {
+  humanScoreElement = document.querySelector('#human-score');
+  computerScoreElement = document.querySelector('#computer-score');
+
+  humanScoreElement.textContent = humanScore;
+  computerScoreElement.textContent = computerScore;
+}
+
+function formatRoundAnnouncement(humanChoice, computerChoice, humanWon) {
+  humanChoice = humanChoice.at(0).toUpperCase() + humanChoice.substring(1);
+  computerChoice = computerChoice.at(0).toUpperCase() + computerChoice.substring(1);
+  const roundAnnouncement = humanWon ? 
+    `You win! ${humanChoice} beats ${computerChoice}!` :
+    `You lose! ${computerChoice} beats ${humanChoice}!`;
+  return roundAnnouncement;
+}
+
+function updateAnnouncement(message) {
+  announcementElement = document.querySelector('#announcement');
+  announcementElement.textContent = message;
+}
+
+applyEventDelegate();
