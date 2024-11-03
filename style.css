@@ -97,7 +97,7 @@ body {
 .output {
   flex-direction: column;
   justify-content: space-evenly;
-  font-size: 5vh;
+  font-size: 8vh;
   text-align: center;
 }
 
