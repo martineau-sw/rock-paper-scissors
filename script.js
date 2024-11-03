@@ -19,37 +19,41 @@ let humanScore = 0;
 let computerScore = 0;
 
 function playRound(humanChoice, computerChoice) {
-  let humanWins = false;
+  const outcome = getOutcomeFromChoices(humanChoice, computerChoice);
+  updateScoreFromOutcome(outcome);
+  updateScoreElements(humanScore, computerScore)
+  updateAnnouncementElement(formatRoundAnnouncement(humanChoice, computerChoice, outcome));
+  updateBackgroundColorFromOutcome(outcome)
+}
 
+function getOutcomeFromChoices(humanChoice, computerChoice) {
   if (humanChoice === computerChoice) {
-    updateAnnouncement('It\'s a tie!');
-    return;
+    return 0;
   }
 
   switch (humanChoice) {
     case "rock":
-      humanWins = computerChoice === "scissors";
-      break;
+      return computerChoice === "scissors" ? 1 : -1;
     case "paper":
-      humanWins = computerChoice === "rock";
-      break;
+      return computerChoice === "rock" ? 1 : -1;
     case "scissors":
-      humanWins = computerChoice === "paper";
-      break;
+      return computerChoice === "paper" ? 1 : -1;
   }
+}
 
-  humanWins ? humanScore++ : computerScore++;
-  
-  updateComputerChoiceElement(computerChoice);
-  updateScoreElements(humanScore, computerScore)
-  updateAnnouncementElement(formatRoundAnnouncement(humanChoice, computerChoice, humanWins));
+function updateScoreFromOutcome(outcome) {
+  if (outcome === 0) return;
+  outcome === 1 ? humanScore++ : computerScore++;
 }
 
 function applyEventDelegate() {
   const buttonsElement = document.querySelector('.human');
+
   buttonsElement.addEventListener('click', event => {
-    playRound(event.target.id, getComputerChoice());
-    event.stopPropagation();
+    const id = (event.target.id !== '') ? 
+      event.target.id :
+      event.target.parentElement.id;
+    playRound(id, getComputerChoice());
   });
 }
 
@@ -61,13 +65,18 @@ function updateScoreElements(humanScore, computerScore) {
   computerScoreElement.textContent = computerScore;
 }
 
-function formatRoundAnnouncement(humanChoice, computerChoice, humanWon) {
+function formatRoundAnnouncement(humanChoice, computerChoice, outcome) {
   humanChoice = humanChoice.at(0).toUpperCase() + humanChoice.substring(1);
   computerChoice = computerChoice.at(0).toUpperCase() + computerChoice.substring(1);
-  const roundAnnouncement = humanWon ? 
-    `You win! ${humanChoice} beats ${computerChoice}!` :
-    `You lose! ${computerChoice} beats ${humanChoice}!`;
-  return roundAnnouncement;
+
+  switch (outcome) {
+    case -1:
+      return `You lose! ${computerChoice} beats ${humanChoice}!`
+    case 0:
+      return 'It\'s a tie!';
+    case 1:
+      return `You win! ${humanChoice} beats ${computerChoice}!` 
+  }
 }
 
 function updateAnnouncementElement(message) {
@@ -75,22 +84,20 @@ function updateAnnouncementElement(message) {
   announcementElement.textContent = message;
 }
 
-function getIconFromChoice(choice) {
-  switch (choice) {
-    case 'rock':
-      return '🪨';
-    case 'paper':
-      return '📄';
-    case 'scissors':
-      return '✂️';
+function updateBackgroundColorFromOutcome(outcome) {
+  const body = document.querySelector('body');
+  body.classList.remove(...body.classList);
+  switch (outcome) {
+    case -1:
+      body.classList.add('computer-winner');
+      return;
+    case 0:
+      body.classList.add('tie');
+      return;
+    case 1:
+      body.classList.add('player-winner');
+      return;
   }
-
-  return '🚫';
-}
-
-function updateComputerChoiceElement(computerChoice) {
-  const computerChoiceElement = document.querySelector('#computer-choice');
-  computerChoiceElement.textContent = getIconFromChoice(computerChoice);
 }
 
 applyEventDelegate();

@@ -1,29 +1,88 @@
+@keyframes shake {
+  from { rotate: -2deg; }
+  to { rotate: 2deg; }
+}
+
+@keyframes light {
+  0% {
+    translate: 0 -15px;
+    filter: drop-shadow(0 5px 10px black) drop-shadow(0 5px 60px white);
+  }
+  25% {
+    translate: 15px 0;
+    filter: drop-shadow(5px 0 10px black) drop-shadow(5px 0 60px white);
+  }
+  50% {
+    translate: -15px 0;
+    filter: drop-shadow(-5px 0 10px black) drop-shadow(-5px 0 60px white);
+  }
+  100% {
+    translate: 0 15px;
+    filter: drop-shadow(0 -5px 10px black) drop-shadow(0 -5px 60px white);
+  }
+}
+
+@property --outcome-color {
+  syntax: '<color>';
+  initial-value: white;
+  inherits: false;
+}
+
+@property --gradient-percent {
+  syntax: '<percentage>';
+  initial-value: 50%;
+  inherits: false;
+}
+
 * {
   padding: 0;
   margin: 0;
 }
 
+
+
 body {
+  transition: --outcome-color 500ms;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: stretch;
   text-align: center;
-  background-image: linear-gradient(red -50%,  black 50%);
+  background-image: linear-gradient(var(--outcome-color) -50%,  black 50%);
   background-attachment: fixed;
   font-family: Arial, Helvetica, sans-serif;
   color: white;
+  overflow:hidden;
+  user-select: none;
+
+}
+
+.player-winner {
+  --outcome-color: blue;
+}
+
+.computer-winner {
+  --outcome-color: red;
+}
+
+.tie {
+  --outcome-color: white;
 }
 
 .section {
   display: flex;
 }
 
+.score {
+  background-clip:border-box;
+}
+
 .output {
   flex-direction: column;
   justify-content: space-evenly;
   font-size: 5vh;
+  text-align: center;
 }
 
 .human,
@@ -34,8 +93,9 @@ body {
 .human {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  gap: 5vw;
+  align-items: stretch;
+  transition: all 200ms;
+
 }
 
 .computer {
@@ -44,22 +104,54 @@ body {
 }
 
 
-button {
-  width: 15vw;
-  height: 15vw;
-  flex: 0 1 auto;
-  display: block;
-  color: transparent;
-  background-color: transparent;
-  text-shadow: 0 0 white;
-  border: none;
-  font-size: 15vh;
+.input {
+  flex: 1; 
+  
+  width: 20vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  transition: all 50ms;
+  transition: all 200ms;
+  filter: drop-shadow(5px 0 30px black);
+
 }
 
-button:hover {
+.human:hover {
+  cursor: grab;
+}
+
+.icon {
+  transition: translate 200ms scale 200ms filter 1s;
+
+  font-size: 15vh;
+  user-select: none;
+  mix-blend-mode: screen;
+}
+
+.human:hover .icon {
+
+  color: rgba(255, 255, 255, 0.5);
+  translate: 0 25vh;
+  scale: 0.5;
+}
+
+.input:hover .icon {
+  scale: 1.2;  
+  rotate: -2deg;
+  translate: 0 15px;
+  filter: drop-shadow(0 -5px 10px black) drop-shadow(0 -5px 60px white);
+
   color: white;
-  text-shadow: none;
-  scale: 1.1;
+  animation-name: shake, light;
+  animation-timing-function: ease-in-out, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: alternate, alternate-reverse;
+  animation-duration: 5s, 10s;
+  animation-fill-mode: forwards, forwards;
+  animation-delay: 2s;
+}
+
+.input:active .icon {
+  scale: 1.15;
 }

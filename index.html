@@ -7,19 +7,22 @@
     <script src="./script.js" defer></script>
   </head>
 
-  <body>
-    <div class="section computer">
-      <div id="computer-choice"></div>
-    </div>
+  <body class="tie">
     <div class="section output">
-      <div id="computer-score">0</div>
-      <div id="announcement">It's a tie!</div>
-      <div id="human-score">0</div>
+      <div id="computer-score" class=".score">0</div>
+      <div id="announcement">Choose your weapon</div>
+      <div id="human-score" class=".score">0</div>
     </div>
     <div class="section human">
-      <button id="rock">🪨</button>
-      <button id="paper">📄</button>
-      <button id="scissors">✂️</button>
+      <div id="rock" class="input" tabindex="-1">
+        <div class="icon" class="input">🪨</div>
+      </div>
+      <div id="paper" class="input" tabindex="-1">
+        <div class="icon">📄</div>
+      </div>
+      <div id="scissors" class="input" tabindex="-1">
+        <div class="icon">✂️</div>
+      </div>
     </div>
   </body>
 </html>
